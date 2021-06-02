@@ -4,7 +4,7 @@ export function Player() {
   return (
     <div className={styles.playerContainer}>
       <header>
-        <img src="/playing.svg" alt="Tocando agora" />
+        <img src="/playing-codar.svg" alt="Tocando agora" style={{ width: '40px' }} />
         <strong>Tocando agora</strong>
       </header>
 
