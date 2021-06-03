@@ -2,6 +2,7 @@ import { GetStaticProps } from 'next';
 import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import Image from 'next/image';
+import Head from 'next/head';
 import ptBR from 'date-fns/locale/pt-BR';
 import { api } from '../services/api';
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString';
@@ -32,6 +33,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   
   return (
     <div className={styles.homepage}>
+      <Head>
+        <title>Home | Bora Codar</title>
+      </Head>
+      
       <section className={styles.latestEpisodes}>
         <h2>Últimos lançamentos</h2>
 
