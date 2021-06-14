@@ -3,12 +3,12 @@
 
   main {
     flex: 1;
+    padding-top: 6.5rem;
     position: relative;
     max-width: calc(100vw - 26.5rem);
     
     @media only screen and (max-width: 1024px) {
       max-width: unset;
-      padding-top: 6.5rem;
       padding-bottom: 80px;
     }
   }

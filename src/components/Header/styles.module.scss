@@ -1,4 +1,10 @@
 .headerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 333;
+  width: 100%;
+  max-width: calc(100% - 26.5rem);
   background: var(--white);
   height: 6.5rem;
 
@@ -21,10 +27,6 @@
   }
 
   @media only screen and (max-width: 1024px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 333;
-    width: 100%;
+    max-width: unset;
   }
 }
