@@ -1,7 +1,5 @@
 .homepage {
   padding: 0 4rem;
-  height: calc(100vh - 6.5rem);
-  overflow-y: scroll;
 
   h2 {
     margin-top: 3rem;
@@ -9,11 +7,10 @@
   }
 }
 
-.latestEpisodes {
+.lastEpisode {
   ul {
     list-style: none;
     display: flex;
-    // grid-template-columns: repeat(2, minmax(1fr, 1fr));
     gap: 1.5rem;
     overflow-x: auto;
 
@@ -27,8 +24,7 @@
       display: flex;
       align-items: center;
 
-      // min-width: 450px;
-      width: max-content;
+      width: 100%;
 
       & > :first-child,
       img {
@@ -89,22 +85,18 @@
       }
 
       button {
-        position: absolute;
-        right: 2rem;
-        bottom: 2rem;
-
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 4.5rem;
+        height: 4.5rem;
         background: var(--white);
         border: 1px solid var(--gray-100);
-        border-radius: 0.675rem;
+        border-radius: 1rem;
         font-size: 0;
 
         transition: filter 0.2s;
 
         img {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
         }
 
         &:hover {

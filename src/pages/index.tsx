@@ -23,47 +23,45 @@ type Episode = {
 };
 
 type HomeProps = {
-  latestEpisodes: Episode[];
+  lastEpisode: Episode;
   allEpisodes: Episode[];
 };
 
-export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
   const { playList } = usePlayer();
 
-  const episodeList = [...latestEpisodes, ...allEpisodes];
+  const episodeList = [lastEpisode, ...allEpisodes];
   
   return (
     <Layout title="Home">
       <div className={styles.homepage}>
         
-        <section className={styles.latestEpisodes}>
-          <h2>Últimos lançamentos</h2>
+        <section className={styles.lastEpisode}>
+          <h2>Último lançamento</h2>
 
           <ul>
-            {latestEpisodes.map((episode, index) => (
-              <li key={episode.id}>
-                <Image
-                  width={192}
-                  height={192}
-                  src={episode.thumbnail}
-                  alt={episode.title}
-                  objectFit="cover"
-                />
+            <li>
+              <Image
+                width={192}
+                height={192}
+                src={lastEpisode.thumbnail}
+                alt={lastEpisode.title}
+                objectFit="cover"
+              />
 
-                <div className={styles.episodeDetails}>
-                  <Link href={`/episodes/${episode.id}`}>
-                    <a>{episode.title}</a>
-                  </Link>
-                  <p>{episode.members}</p>
-                  <span>{episode.publishedAt}</span>
-                  <span>{episode.durationAsString}</span>
-                </div>
+              <div className={styles.episodeDetails}>
+                <Link href={`/episodes/${lastEpisode.id}`}>
+                  <a>{lastEpisode.title}</a>
+                </Link>
+                <p>{lastEpisode.members}</p>
+                <span>{lastEpisode.publishedAt}</span>
+                <span>{lastEpisode.durationAsString}</span>
+              </div>
 
-                <button type="button">
-                  <img src="/play-green.svg" alt="Tocar episódio" onClick={() => playList(episodeList, index)} />
-                </button>
-              </li>
-            ))}
+              <button type="button" onClick={() => playList(episodeList, 0)}>
+                <img src="/play-green.svg" alt="Tocar episódio" />
+              </button>
+            </li>
           </ul>
         </section>
 
@@ -102,7 +100,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button" onClick={() => playList(episodeList, index + latestEpisodes.length)}>
+                    <button type="button" onClick={() => playList(episodeList, index + 1)}>
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
@@ -138,12 +136,12 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
-  const latestEpisodes = episodes.slice(0, 2);
-  const allEpisodes = episodes.slice(2);
+  const lastEpisode = episodes[0];
+  const allEpisodes = episodes.slice(1);
 
   return {
     props: {
-      latestEpisodes,
+      lastEpisode,
       allEpisodes,
     },
     revalidate: 60 * 60 * 8,

@@ -58,11 +58,11 @@ export function Player() {
   const handleEpisodeEnded = () => {
     if (hasNext) {
       playNext();
-    }else {
+    } else {
       clearPlayerState();
     }
   };
-  
+
   const episode = episodeList[currentEpisodeIndex];
 
   return (
@@ -80,7 +80,12 @@ export function Player() {
             src={episode.thumbnail}
             objectFit="cover"
           />
-          <strong>{episode.title}</strong>
+          <div className={styles.marquee}>
+            <div>
+              <strong>{episode.title}</strong>
+              <strong>{episode.title}</strong>
+            </div>
+          </div>
           <span>{episode.members}</span>
         </div>
       ) : (
@@ -89,26 +94,26 @@ export function Player() {
         </div>
       )}
 
-      <footer className={!episode ? styles.empty : ''}>
-        <div className={styles.progress}>
-          <span>{convertDurationToTimeString(progress)}</span>
-          <div className={styles.slider}>
-            {episode ? (
-              <Slider
-                max={episode.duration}
-                value={progress}
-                onChange={handleSeek}
-                trackStyle={{ backgroundColor: '#04d361' }}
-                railStyle={{ backgroundColor: '#9f75ff' }}
-                handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
-              />
-            ) : (
-              <div className={styles.emptySlider} />
-            )}
-          </div>
-          <span>{convertDurationToTimeString(episode?.duration ?? 0)}</span>
+      <div className={styles.progress}>
+        <span>{convertDurationToTimeString(progress)}</span>
+        <div className={styles.slider}>
+          {episode ? (
+            <Slider
+              max={episode.duration}
+              value={progress}
+              onChange={handleSeek}
+              trackStyle={{ backgroundColor: '#04d361' }}
+              railStyle={{ backgroundColor: '#9f75ff' }}
+              handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
+            />
+          ) : (
+            <div className={styles.emptySlider} />
+          )}
         </div>
+        <span>{convertDurationToTimeString(episode?.duration ?? 0)}</span>
+      </div>
 
+      <footer className={!episode ? styles.empty : ''}>
         {episode && (
           <audio
             src={episode.url}

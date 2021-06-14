@@ -33,20 +33,70 @@
       opacity: 0.5;
     }
   }
+
+  @media only screen and (max-width: 1024px) {
+    top: unset;
+    bottom: 0;
+    gap: 1rem;
+    width: 100%;
+    height: auto;
+    padding: 1rem 1.5rem;
+    justify-content: flex-start;
+    flex-direction: row;
+
+    display: grid;
+    grid-template-columns: 1fr 250px 1fr;
+    grid-template-areas: 'details buttons progress';
+
+    header {
+      display: none;
+      visibility: hidden;
+    }
+
+    footer {
+      flex: 1;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+  }
 }
 
 .currentEpisode {
   text-align: center;
+  width: 100%;
+  grid-area: details;
 
   img {
     border-radius: 1.5rem;
   }
 
-  strong {
-    display: block;
-    margin-top: 2rem;
-    font: 600 1.25rem Lexend, sans-serif;
-    line-height: 1.75rem;
+  @keyframes marqueeAnimation {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee {
+    margin: 1rem auto 0;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    mask-image: linear-gradient(to right,transparent,#202124 5%,#202124 95%,transparent);
+
+    & > div {
+      width: fit-content;
+      animation: marqueeAnimation 10s linear infinite;
+    }
+
+    strong {
+      font: 600 1.25rem Lexend, sans-serif;
+      line-height: 1.75rem;
+      padding-right: 1rem;
+    }
   }
 
   span {
@@ -54,6 +104,25 @@
     margin-top: 1rem;
     opacity: 0.6;
     line-height: 1.5rem;
+  }
+  @media only screen and (max-width: 1024px) {
+    display: flex;
+    width: fit-content;
+
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 0.6rem;
+    }
+
+    span {
+      display: none;
+    }
+
+    .marquee {
+      margin-left: 1rem;
+      width: 200px;
+    }
   }
 }
 
@@ -70,6 +139,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media only screen and (max-width: 1024px) {
+    padding: unset;
+    width: 56px;
+    height: 56px;
+    border-radius: 0.6rem;
+
+    & > :first-child {
+      display: none;
+    }
+  }
 }
 
 .progress {
@@ -77,6 +157,8 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
+  grid-area: progress;
+  width: 100%;
 
   span {
     display: inline-block;
@@ -85,13 +167,44 @@
   }
 
   .slider {
+    display: flex;
+    align-items: center;
     flex: 1;
+    
+    & > :first-child {
+      cursor: pointer;
+    }
 
     .emptySlider {
       width: 100%;
       height: 4px;
+      cursor: default;
       background: var(--purple-300);
       border-radius: 2px;
+    }
+  }
+
+  @media only screen and (max-width: 1024px) {
+    justify-content: flex-end;
+    gap: unset;
+    
+    & > span {
+      width: fit-content;
+    }
+    & > span:first-of-type {
+      &::after {
+        content: '/';
+        padding: 0 0.5rem;
+      }
+    }
+
+    .slider {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      transform: translateY(-50%);
+      height: 20px;
     }
   }
 }
@@ -100,7 +213,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2.5rem;
   gap: 1.5rem;
 
   button {
