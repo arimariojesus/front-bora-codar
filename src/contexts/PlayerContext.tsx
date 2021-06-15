@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from 'react';
 
 type Episode = {
   title: string;
@@ -9,14 +9,17 @@ type Episode = {
 };
 
 type PlayerContextData = {
+  audio: HTMLAudioElement;
   episodeList: Episode[];
   currentEpisodeIndex: number;
+  currentTime: number;
   isPlaying: boolean;
   isLooping: boolean;
   isShuffling: boolean;
   play: (episode: Episode) => void;
   playList: (episode: Episode[], index: number) => void;
   setPlayingState: (state: boolean) => void;
+  setCurrentTime: (time: number) => void;
   playNext: () => void;
   playPrevious: () => void;
   togglePlay: () => void;
@@ -34,8 +37,10 @@ type PlayerContextProviderProps = {
 };
 
 export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) => {
+  const [audio, setAudio] = useState<HTMLAudioElement>(null);
   const [episodeList, setEpisodeList] = useState([]);
-  const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
+  const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
+  const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLooping, setIsLooping] = useState(false);
   const [isShuffling, setIsShuffling] = useState(false);
@@ -52,9 +57,22 @@ export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) 
     setIsPlaying(true);
   };
 
-  const togglePlay = () => {
-    setIsPlaying(state => !state);
+  const handleSetEpisode = () => {
+    const currentEpisode = episodeList[currentEpisodeIndex];
+    audio.src = currentEpisode.url;
   };
+
+  const togglePlay = useCallback(async () => {
+    if (!isPlaying) {
+      await audio.play();
+      setIsPlaying(true);
+
+      return;
+    }
+
+    await audio.pause();
+    setIsPlaying(false);
+  }, [audio, isPlaying]);
 
   const toggleLoop = () => {
     setIsLooping(state => !state);
@@ -92,11 +110,64 @@ export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) 
     }
   };
 
+  const handleEpisodeEnded = () => {
+    if (hasNext) {
+      playNext();
+    } else {
+      clearPlayerState();
+    }
+  };
+
+  useEffect(() => {
+    const audioElement = new Audio('');
+
+    const handleSetCurrentTime = () => {
+      setCurrentTime(Math.floor(audioElement.currentTime));
+    };
+
+    const setupProgressListener = () => {
+      audioElement.currentTime = 0;
+
+      audioElement.addEventListener('timeupdate', handleSetCurrentTime);
+    };
+
+    audioElement.onplay = () => setPlayingState(true);
+    audioElement.onpause = () => setPlayingState(false);
+    audioElement.onended = handleEpisodeEnded;
+    audioElement.onloadedmetadata = setupProgressListener;
+
+    setAudio(audioElement);
+
+    return () => {
+      audioElement.pause();
+      audioElement.src = '';
+      audioElement.removeEventListener('timeupdate', handleSetCurrentTime);
+    };
+  }, []);
+
+  useEffect(() => {
+  }, [currentTime]);
+
+  useEffect(() => {
+    if(!audio?.src) {
+      return;
+    }
+
+    if(isPlaying) {
+      handleSetEpisode();
+      audio.play();
+    }else {
+      audio.pause();
+    }
+  }, [currentEpisodeIndex]);
+
   return (
     <PlayerContext.Provider
       value={{
+        audio,
         episodeList,
         currentEpisodeIndex,
+        currentTime,
         play,
         playList,
         isPlaying,
@@ -108,6 +179,7 @@ export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) 
         playNext,
         playPrevious,
         setPlayingState,
+        setCurrentTime,
         clearPlayerState,
         hasNext,
         hasPrevious,
