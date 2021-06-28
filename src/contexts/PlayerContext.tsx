@@ -159,7 +159,7 @@ export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) 
     }else {
       audio.pause();
     }
-  }, [episodeList]);
+  }, [episodeList, currentEpisodeIndex]);
 
   return (
     <PlayerContext.Provider
