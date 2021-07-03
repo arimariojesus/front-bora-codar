@@ -95,7 +95,9 @@ export async function getPodcastInfos() {
   const podcastsList = await page.evaluate(() => {
     const podcasts = [];
 
-    document.querySelectorAll('.styles__episodeFeed___3mOKz > div').forEach(div => {
+    document.querySelectorAll('.styles__episodeFeed___3mOKz > div').forEach(async div => {
+      document.querySelector('.styles__expander___1NNVb.styles__expander--dark___3Qxhe > div > div').click();
+      
       const podcastObj = {
         file: {
           url: '',
@@ -103,7 +105,7 @@ export async function getPodcastInfos() {
         },
         thumbnail: div.querySelector('.styles__episodeImage___tMifW > img').getAttribute('src'),
         title: div.querySelector('.styles__episodeHeading___29q7v > div').innerHTML,
-        description: div.querySelector('.styles__episodeDescription___C3oZg').innerHTML.toString(),
+        description: div.querySelector('.styles__episodeDescription___C3oZg > div').innerHTML.toString(),
         published_at: div.querySelector('.styles__episodeCreated___1zP5p').innerHTML.toString(),
       };
 
@@ -115,14 +117,17 @@ export async function getPodcastInfos() {
 
   const promisesOfTheLinks = await listLinks.map(async (link, index) => {
     const newPage = await browser.newPage();
-    await newPage.goto(link);
+    await newPage.goto(link, {
+      waitUntil: 'load',
+      timeout: 0,
+    });
     const audio = await newPage.evaluate(async () => {
-      await document.getElementsByTagName('audio')[0]?.play();
-      document.getElementsByTagName('audio')[0].pause();
+      await document.getElementsByTagName('audio')[0].play();
+      await document.getElementsByTagName('audio')[0].pause();
 
       return {
-        src: document.getElementsByTagName('audio')[0]?.src,
-        duration: await document.getElementsByTagName('audio')[0]?.duration,
+        src: document.getElementsByTagName('audio')[0].src,
+        duration: document.getElementsByTagName('audio')[0].duration,
       };
     });
 
@@ -135,12 +140,14 @@ export async function getPodcastInfos() {
 
   const data = podcastsList.map((item, index) => {
     const podcast = item;
-    podcast.file.url = audios[index]?.value.src;
-    podcast.file.duration = audios[index]?.value.duration;
+    const hasValue = Object.keys(audios[index]).includes('value');
+    podcast.file.url = hasValue ? audios[index].value.src : '';
+    podcast.file.duration = hasValue ? audios[index].value.duration : '';
 
     return podcast;
   });
 
   await page.close();
+  await browser.close();
   return data;
 }

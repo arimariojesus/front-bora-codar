@@ -14,7 +14,7 @@ type Episode = {
   id: string;
   title: string;
   thumbnail: string;
-  members: string;
+  // members: string;
   publishedAt: string;
   duration: number;
   durationAsString: string;
@@ -52,7 +52,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
                 <Link href={`/episodes/${lastEpisode.id}`}>
                   <a>{lastEpisode.title}</a>
                 </Link>
-                <p>{lastEpisode.members}</p>
+                {/* <p>{lastEpisode.members}</p> */}
                 <span>{lastEpisode.publishedAt}</span>
                 <span>{lastEpisode.durationAsString}</span>
               </div>
@@ -95,7 +95,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
                       <a>{episode.title}</a>
                     </Link>
                   </td>
-                  <td>{episode.members}</td>
+                  {/* <td>{episode.members}</td> */}
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
@@ -114,23 +114,18 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get('episodes', {
-    params: {
-      _limit: 12,
-      _sort: 'published_at',
-      _order: 'desc',
-    }
-  });
+  const { data } = await api.get('episodes');
 
   const episodes = data.map(episode => {
     return {
-      id: episode.id,
+      id: episode.title,
       title: episode.title,
       thumbnail: episode.thumbnail,
-      members: episode.members,
-      publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
-      duration: Number(episode.file.duration),
-      durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
+      // members: episode.members,
+      // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+      publishedAt: episode.published_at,
+      duration: parseInt(episode.file.duration, 10),
+      durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
       url: episode.file.url,
     }
   });

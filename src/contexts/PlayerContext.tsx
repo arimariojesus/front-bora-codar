@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode, useContext, useEffect, useCallback 
 
 type Episode = {
   title: string;
-  members: string;
+  // members: string;
   thumbnail: string;
   duration: number;
   url: string;

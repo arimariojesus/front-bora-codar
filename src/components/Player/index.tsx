@@ -57,7 +57,7 @@ function Player() {
               <strong>{episode.title}</strong>
             </div>
           </div>
-          <span>{episode.members}</span>
+          {/* <span>{episode.members}</span> */}
         </div>
       ) : (
         <div className={styles.emptyPlayer}>
