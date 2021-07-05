@@ -115,31 +115,43 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data: episodes } = await api.get('episodes');
+  try {
+    const { data: episodes } = await api.get('episodes');
 
-  const mappedEpisodes = episodes.map(episode => {
-    return {
-      id: episode._id,
-      title: episode.title,
-      thumbnail: episode.thumbnail,
-      // members: episode.members,
-      // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
-      slug: episode.slug,
-      publishedAt: episode.published_at,
-      duration: parseInt(episode.file.duration, 10),
-      durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
-      url: episode.file.url,
+    if (!episodes) {
+      return {
+        notFound: true,
+      };
     }
-  });
 
-  const lastEpisode = mappedEpisodes[0];
-  const allEpisodes = mappedEpisodes.slice(1);
+    const mappedEpisodes = episodes.map(episode => {
+      return {
+        id: episode._id,
+        title: episode.title,
+        thumbnail: episode.thumbnail,
+        // members: episode.members,
+        // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+        slug: episode.slug,
+        publishedAt: episode.published_at,
+        duration: parseInt(episode.file.duration, 10),
+        durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
+        url: episode.file.url,
+      }
+    });
 
-  return {
-    props: {
-      lastEpisode,
-      allEpisodes,
-    },
-    revalidate: 60 * 60 * 8,
-  };
+    const lastEpisode = mappedEpisodes[0];
+    const allEpisodes = mappedEpisodes.slice(1);
+
+    return {
+      props: {
+        lastEpisode,
+        allEpisodes,
+      },
+      revalidate: 60 * 60 * 8,
+    };
+  } catch (_) {
+    return {
+      notFound: true,
+    };
+  }
 }

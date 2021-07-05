@@ -95,28 +95,38 @@ export const getStaticPaths: GetStaticPaths = async  () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params;
 
-  const { data } = await api.get(`episodes/${slug}`);
+  try {
+    const { data } = await api.get(`episodes/${slug}`);
 
-  console.log('data: ', data);
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
 
-  const episode = {
-    id: data._id,
-    title: data.title,
-    thumbnail: data.thumbnail,
-    // members: data.members,
-    // publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
-    slug: data.slug,
-    publishedAt: data.published_at,
-    description: data.description,
-    duration: parseInt(data.file.duration, 10),
-    durationAsString: convertDurationToTimeString(parseInt(data.file.duration, 10)),
-    url: data.file.url,
-  };
+    const episode = {
+      id: data._id,
+      title: data.title,
+      thumbnail: data.thumbnail,
+      // members: data.members,
+      // publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
+      slug: data.slug,
+      publishedAt: data.published_at,
+      description: data.description,
+      duration: parseInt(data.file.duration, 10),
+      durationAsString: convertDurationToTimeString(parseInt(data.file.duration, 10)),
+      url: data.file.url,
+    };
 
-  return {
-    props: {
-      episode,
-    },
-    revalidate: 60 * 60 * 24, // 24 horas
-  };
+    return {
+      props: {
+        episode,
+      },
+      revalidate: 60 * 60 * 24, // 24 horas
+    };
+  } catch(_) {
+    return {
+      notFound: true,
+    };
+  }
 };
