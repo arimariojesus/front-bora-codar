@@ -114,9 +114,9 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get('episodes');
+  const { data: episodes } = await api.get('episodes');
 
-  const episodes = data.map(episode => {
+  const mappedEpisodes = episodes.map(episode => {
     return {
       id: episode.title,
       title: episode.title,
@@ -130,8 +130,8 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
-  const lastEpisode = episodes[0];
-  const allEpisodes = episodes.slice(1);
+  const lastEpisode = mappedEpisodes[0];
+  const allEpisodes = mappedEpisodes.slice(1);
 
   return {
     props: {
