@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         const { db } = await connectToDatabase();
-        let dataFromDatabase = await db.collection('episodes').find().toArray();
+        let dataFromDatabase = await db.collection('episodes').find().sort({ _id: -1 }).toArray();
         const { data, hasNewEpisode } = await getPodcastInfos(dataFromDatabase);
 
         if (hasNewEpisode) {
