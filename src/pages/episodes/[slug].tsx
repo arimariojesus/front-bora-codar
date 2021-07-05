@@ -94,38 +94,23 @@ export const getStaticPaths: GetStaticPaths = async  () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params;
-  
-  console.log('slug: ', slug);
 
   const { data } = await api.get(`episodes/${slug}`);
 
   console.log('data: ', data);
 
-  // const episode = {
-  //   id: data._id,
-  //   title: data.title,
-  //   thumbnail: data.thumbnail,
-  //   // members: data.members,
-  //   // publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
-  //   slug: data.slug,
-  //   publishedAt: data.published_at,
-  //   description: data.description,
-  //   duration: parseInt(data.file.duration, 10),
-  //   durationAsString: convertDurationToTimeString(parseInt(data.file.duration, 10)),
-  //   url: data.file.url,
-  // };
   const episode = {
-    id: '',
-    title: '',
-    thumbnail: 'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo400/12967479/12967479-1613936504355-207ab4a0afca4.jpg',
+    id: data._id,
+    title: data.title,
+    thumbnail: data.thumbnail,
     // members: data.members,
     // publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
-    slug: '',
-    publishedAt: '',
-    description: '',
-    duration: 0,
-    durationAsString: '',
-    url: '',
+    slug: data.slug,
+    publishedAt: data.published_at,
+    description: data.description,
+    duration: parseInt(data.file.duration, 10),
+    durationAsString: convertDurationToTimeString(parseInt(data.file.duration, 10)),
+    url: data.file.url,
   };
 
   return {
