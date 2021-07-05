@@ -15,6 +15,7 @@ type Episode = {
   title: string;
   thumbnail: string;
   // members: string;
+  slug: string;
   publishedAt: string;
   duration: number;
   durationAsString: string;
@@ -49,7 +50,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
               />
 
               <div className={styles.episodeDetails}>
-                <Link href={`/episodes/${lastEpisode.id}`}>
+                <Link href={`/episodes/${lastEpisode.slug}`}>
                   <a>{lastEpisode.title}</a>
                 </Link>
                 {/* <p>{lastEpisode.members}</p> */}
@@ -91,7 +92,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
                     />
                   </td>
                   <td>
-                    <Link href={`/episodes/${episode.id}`}>
+                    <Link href={`/episodes/${episode.slug}`}>
                       <a>{episode.title}</a>
                     </Link>
                   </td>
@@ -118,11 +119,12 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const mappedEpisodes = episodes.map(episode => {
     return {
-      id: episode.title,
+      id: episode._id,
       title: episode.title,
       thumbnail: episode.thumbnail,
       // members: episode.members,
       // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+      slug: episode.slug,
       publishedAt: episode.published_at,
       duration: parseInt(episode.file.duration, 10),
       durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),

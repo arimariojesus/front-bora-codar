@@ -15,8 +15,9 @@ type Episode = {
   id: string;
   title: string;
   thumbnail: string;
-  members: string;
+  // members: string;
   publishedAt: string;
+  slug: string;
   duration: number;
   durationAsString: string;
   description: string;
@@ -52,7 +53,7 @@ const Episode = ({ episode }: EpisodeProps) => {
 
         <header>
           <h1>{episode.title}</h1>
-          <span>{episode.members}</span>
+          {/* <span>{episode.members}</span> */}
           <span>{episode.publishedAt}</span>
           <span>{episode.durationAsString}</span>
         </header>
@@ -69,42 +70,48 @@ const Episode = ({ episode }: EpisodeProps) => {
 export default Episode;
 
 export const getStaticPaths: GetStaticPaths = async  () => {
-  const { data } = await api.get('episodes', {
-    params: {
-      _limit: 2,
-      _sort: 'published_at',
-      _order: 'desc',
-    }
-  });
+  // const { data } = await api.get('episodes', {
+  //   params: {
+  //     _limit: 2,
+  //     _sort: 'published_at',
+  //     _order: 'desc',
+  //   }
+  // });
 
-  const paths = data.map(episode => {
-    return {
-      params: {
-        slug: episode.id,
-      }
-    };
-  });
+  // const paths = data.map(episode => {
+  //   return {
+  //     params: {
+  //       slug: episode.id,
+  //     }
+  //   };
+  // });
 
   return {
-    paths,
+    paths: [],
     fallback: 'blocking',
   }
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params;
+  
+  console.log('slug: ', slug);
 
   const { data } = await api.get(`episodes/${slug}`);
 
+  console.log('data: ', data);
+
   const episode = {
-    id: data.id,
+    id: data._id,
     title: data.title,
     thumbnail: data.thumbnail,
-    members: data.members,
-    publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
-    duration: Number(data.file.duration),
-    durationAsString: convertDurationToTimeString(Number(data.file.duration)),
+    // members: data.members,
+    // publishedAt: format(parseISO(data.published_at), 'd MMM yy', { locale: ptBR }),
+    slug: data.slug,
+    publishedAt: data.published_at,
     description: data.description,
+    duration: parseInt(data.file.duration, 10),
+    durationAsString: convertDurationToTimeString(parseInt(data.file.duration, 10)),
     url: data.file.url,
   };
 
