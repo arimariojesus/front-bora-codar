@@ -115,20 +115,34 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data: episodes } = await api.get('episodes');
+  // const { data: episodes } = await api.get('episodes');
 
-  const mappedEpisodes = episodes.map(episode => {
+  // const mappedEpisodes = episodes.map(episode => {
+  //   return {
+  //     id: episode._id,
+  //     title: episode.title,
+  //     thumbnail: episode.thumbnail,
+  //     // members: episode.members,
+  //     // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+  //     slug: episode.slug,
+  //     publishedAt: episode.published_at,
+  //     duration: parseInt(episode.file.duration, 10),
+  //     durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
+  //     url: episode.file.url,
+  //   }
+  // });
+  const mappedEpisodes = [1, 2, 3].map(episode => {
     return {
-      id: episode._id,
-      title: episode.title,
-      thumbnail: episode.thumbnail,
+      id: '',
+      title: '',
+      thumbnail: 'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo400/12967479/12967479-1613936504355-207ab4a0afca4.jpg',
       // members: episode.members,
       // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
-      slug: episode.slug,
-      publishedAt: episode.published_at,
-      duration: parseInt(episode.file.duration, 10),
-      durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
-      url: episode.file.url,
+      slug: '',
+      publishedAt: '',
+      duration: 0,
+      durationAsString: '',
+      url: '',
     }
   });
 
