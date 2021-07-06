@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getPodcastInfos } from "../../../infra/getPodcasts";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getPodcastInfos } from '../../../infra/getPodcasts';
 import { connectToDatabase } from '../../../utils/mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
