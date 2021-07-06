@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "set NODE_ENV=production && next build || export NODE_ENV=production next build",
+    "build": "rm -rf ./build && rm -rf ./.next && NODE_ENV=production next build",
     "start": "next start",
     "server": "json-server server.json -w -p 3333"
   },

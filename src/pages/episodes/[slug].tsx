@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 
-import { api } from '../../services/api';
-import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
+import { api } from './../../services/api';
+import { convertDurationToTimeString } from './../../utils/convertDurationToTimeString';
 
 import styles from './episodes.module.scss';
-import { usePlayer } from '../../contexts/PlayerContext';
-import Layout from '../../components/Layout';
+import { usePlayer } from './../../contexts/PlayerContext';
+import Layout from './../../components/Layout';
 
 type Episode = {
   id: string;

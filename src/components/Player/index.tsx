@@ -5,10 +5,10 @@ import Slider from 'rc-slider';
 
 import 'rc-slider/assets/index.css';
 
-import { usePlayer } from '../../contexts/PlayerContext';
+import { usePlayer } from './../../contexts/PlayerContext';
 
 import styles from './styles.module.scss';
-import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
+import { convertDurationToTimeString } from './../../utils/convertDurationToTimeString';
 
 function Player() {
   const {

@@ -1,6 +1,6 @@
-import '../styles/global.scss';
+import './../styles/global.scss';
 
-import { PlayerContextProvider } from '../contexts/PlayerContext';
+import { PlayerContextProvider } from './../contexts/PlayerContext';
 
 function MyApp({ Component, pageProps }) {
   return (
