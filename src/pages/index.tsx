@@ -36,19 +36,25 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
     <Layout title="Home">
       <div className={styles.homepage}>
         
-        <section className={styles.lastEpisode}>
+        <section>
           <h2>Último lançamento</h2>
 
-          <ul>
-            <li>
-              <Image
-                width={192}
-                height={192}
-                src={lastEpisode.thumbnail}
-                alt={lastEpisode.title}
-                objectFit="cover"
-              />
+          <figure className={styles.lastEpisode}>
+            <Link href={`/episodes/${lastEpisode.slug}`}>
+              <a>
+                <picture>
+                  <Image
+                    width={264}
+                    height={264}
+                    src={lastEpisode.thumbnail}
+                    alt={lastEpisode.title}
+                    objectFit="cover"
+                  />
+                </picture>
+              </a>
+            </Link>
 
+            <footer className={styles.episodeContent}>
               <div className={styles.episodeDetails}>
                 <Link href={`/episodes/${lastEpisode.slug}`}>
                   <a>{lastEpisode.title}</a>
@@ -61,53 +67,41 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
               <button type="button" onClick={() => playList(episodeList, 0)}>
                 <img src="/play-green.svg" alt="Tocar episódio" />
               </button>
-            </li>
-          </ul>
+            </footer>
+          </figure>
         </section>
 
         <section className={styles.allEpisodes}>
           <h2>Todos episódios</h2>
 
-          <table cellSpacing={0}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Podcast</th>
-                <th>Integrantes</th>
-                <th>Data</th>
-                <th>Duração</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {allEpisodes.map((episode, index) => (
-                <tr key={episode.id}>
-                  <td style={{ width: 72 }}>
+          {allEpisodes.map((episode, index) => (
+            <div className={styles.episodeContainer}>
+              <Link href={`/episodes/${episode.slug}`}>
+                <a>
+                  <picture>
                     <Image
-                      width={120}
-                      height={120}
+                      width={100}
+                      height={100}
                       src={episode.thumbnail}
                       alt={episode.title}
                       objectFit="cover"
                     />
-                  </td>
-                  <td>
-                    <Link href={`/episodes/${episode.slug}`}>
-                      <a>{episode.title}</a>
-                    </Link>
-                  </td>
-                  {/* <td>{episode.members}</td> */}
-                  <td style={{ width: 100 }}>{episode.publishedAt}</td>
-                  <td>{episode.durationAsString}</td>
-                  <td>
-                    <button type="button" onClick={() => playList(episodeList, index + 1)}>
-                      <img src="/play-green.svg" alt="Tocar episódio" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </picture>
+                </a>
+              </Link>
+              <div>
+                <h4>
+                  <Link href={`/episodes/${episode.slug}`}>
+                    <a>{episode.title}</a>
+                  </Link>
+                </h4>
+                <p>{episode.publishedAt}</p>
+              </div>
+              <button type="button" onClick={() => playList(episodeList, index + 1)}>
+                <img src="/play-green.svg" alt="Tocar episódio" />
+              </button>
+            </div>
+          ))}
         </section>
       </div>
     </Layout>
@@ -116,41 +110,28 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    // const { data: episodes } = await api.get('episodes');
+    const { data: episodes } = await api.get('episodes');
 
-    // if (!episodes) {
-    //   return {
-    //     notFound: true,
-    //   };
-    // }
+    if (!episodes) {
+      return {
+        notFound: true,
+      };
+    }
 
-    // const mappedEpisodes = episodes.map(episode => {
-    //   return {
-    //     id: episode._id,
-    //     title: episode.title,
-    //     thumbnail: episode.thumbnail,
-    //     // members: episode.members,
-    //     // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
-    //     slug: episode.slug,
-    //     publishedAt: episode.published_at,
-    //     duration: parseInt(episode.file.duration, 10),
-    //     durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
-    //     url: episode.file.url,
-    //   }
-    // });
-    const mappedEpisodes = [{
-      title: 'Série Código Limpo - EP 01 [prefácio]',
-      published_at: '2021-02-21 20:10:40',
-      thumbnail: 'https://production.listennotes.com/podcasts/bora-codar-RsLEMX_G8at-k7eaqr-ljOs.300x300.jpg',
-      description: '<p>Codigo limpo é uma verdadeira obra de arte, somos apaixonados pelo livro.</p><p>Esta série é uma declaração de amor a obra, onde uniremos o conteudo do livro com nossa vivencia de mercado; esperamos que gostem!</p><p>Nosso site:</p><p><a href=https://codar.app>https://codar.app</a></p><p>Link para comprar o livro na Amazon:</p><p><a href=https://www.amazon.com.br/s?k=codigo+limpo&adgrpid=81608350312&gclid=Cj0KCQiApsiBBhCKARIsAN8o_4h3bBlJ2CD74udp3pdT3x8fS2mBE6nARpqXUYzJzya7iKvpY2KumtgaAhegEALw_wcB&hvadid=426015455681&hvdev=c&hvlocphy=1001533&hvnetw=g&hvqmt=e&hvrand=1641774745756650072&hvtargid=kwd-447114230604&hydadcr=5622_11235117&tag=hydrbrgk-20&ref=pd_sl_4ujrlkbcg3_e>https://www.amazon.com.br/s?k=codigo+limpo&adgrpid=81608350312&gclid=Cj0KCQiApsiBBhCKARIsAN8o_4h3bBlJ2CD74udp3pdT3x8fS2mBE6nARpqXUYzJzya7iKvpY2KumtgaAhegEALw_wcB&hvadid=426015455681&hvdev=c&hvlocphy=1001533&hvnetw=g&hvqmt=e&hvrand=1641774745756650072&hvtargid=kwd-447114230604&hydadcr=5622_11235117&tag=hydrbrgk-20&ref=pd_sl_4ujrlkbcg3_e</a></p>',
-      // members: members,
-      // publishedAt: format(parseISO(published_at), 'd MMM yy', { locale: ptBR }),
-      slug: 'serie-codigo-limpo-ep-01-prefacio',
-      publishedAt: '',
-      duration: 0,
-      durationAsString: '',
-      url: 'https://d3ctxlq1ktw2nl.cloudfront.net/staging/2021-1-21/157518456-44100-2-1515b72064319.m4a',
-    }];
+    const mappedEpisodes = episodes.map(episode => {
+      return {
+        id: episode._id,
+        title: episode.title,
+        thumbnail: episode.thumbnail,
+        // members: episode.members,
+        // publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+        slug: episode.slug,
+        publishedAt: episode.published_at,
+        duration: parseInt(episode.file.duration, 10),
+        durationAsString: convertDurationToTimeString(parseInt(episode.file.duration, 10)),
+        url: episode.file.url,
+      }
+    });
 
     const lastEpisode = mappedEpisodes[0];
     const allEpisodes = mappedEpisodes.slice(0);
@@ -162,7 +143,8 @@ export const getStaticProps: GetStaticProps = async () => {
       },
       revalidate: 60 * 60 * 8,
     };
-  } catch (_) {
+  } catch (err) {
+    console.log('Error: ', err);
     return {
       notFound: true,
     };

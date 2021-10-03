@@ -39,7 +39,9 @@ function Player() {
   return (
     <div className={styles.playerContainer}>
       <header>
-        <img src="/playing-codar.svg" alt="Tocando agora" style={{ width: '40px' }} />
+        <picture>
+          <img src="/playing-codar.svg" alt="Tocando agora" width="40" height="40" />
+        </picture>
         <strong>Tocando agora</strong>
       </header>
 
@@ -74,7 +76,7 @@ function Player() {
               value={currentTime}
               onChange={handleSeek}
               trackStyle={{ backgroundColor: '#04d361' }}
-              railStyle={{ backgroundColor: '#9f75ff' }}
+              railStyle={{ backgroundColor: '#ffffff' }}
               handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
             />
           ) : (

@@ -29,4 +29,14 @@
   @media only screen and (max-width: 1024px) {
     max-width: unset;
   }
+
+  @media only screen and (max-width: 564px) {
+    & > img {
+      width: 150px;
+      height: auto;
+    }
+    & > p {
+      display: none;
+    }
+  }
 }
