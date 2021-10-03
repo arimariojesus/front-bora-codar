@@ -9,6 +9,7 @@ import { convertDurationToTimeString } from './../utils/convertDurationToTimeStr
 import styles from './home.module.scss';
 import { usePlayer } from './../contexts/PlayerContext';
 import Layout from './../components/Layout';
+import { connectToDatabase } from '../utils/mongodb';
 
 type Episode = {
   id: string;
@@ -110,7 +111,8 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const { data: episodes } = await api.get('episodes');
+    const { db } = await connectToDatabase();
+    const episodes = await db.collection('episodes').find().sort({ _id: -1 }).toArray();
 
     if (!episodes) {
       return {
@@ -120,7 +122,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const mappedEpisodes = episodes.map(episode => {
       return {
-        id: episode._id,
+        id: `${episode._id}`,
         title: episode.title,
         thumbnail: episode.thumbnail,
         // members: episode.members,

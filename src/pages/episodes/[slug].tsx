@@ -10,6 +10,7 @@ import { convertDurationToTimeString } from './../../utils/convertDurationToTime
 import styles from './episodes.module.scss';
 import { usePlayer } from './../../contexts/PlayerContext';
 import Layout from './../../components/Layout';
+import { connectToDatabase } from '../../utils/mongodb';
 
 type Episode = {
   id: string;
@@ -90,7 +91,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params;
 
   try {
-    const { data } = await api.get(`episodes/${slug}`);
+    const { db } = await connectToDatabase();
+    const data = await db.collection('episodes').findOne(`${slug}`);
 
     if (!data) {
       return {
