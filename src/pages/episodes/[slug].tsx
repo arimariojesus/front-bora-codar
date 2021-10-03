@@ -71,12 +71,13 @@ const Episode = ({ episode }: EpisodeProps) => {
 export default Episode;
 
 export const getStaticPaths: GetStaticPaths = async  () => {
-  const { data } = await api.get('episodes');
+  const { db } = await connectToDatabase();
+  const data = await db.collection('episodes').find().sort({ _id: -1 }).toArray();
 
   const paths = data.map(episode => {
     return {
       params: {
-        slug: episode._id,
+        slug: `${episode.slug}`,
       }
     };
   });
@@ -92,7 +93,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   try {
     const { db } = await connectToDatabase();
-    const data = await db.collection('episodes').findOne(`${slug}`);
+    const data = await db.collection('episodes').findOne({ slug: `${slug}` });
 
     if (!data) {
       return {
@@ -101,7 +102,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
 
     const episode = {
-      id: data._id,
+      id: `${data._id}`,
       title: data.title,
       thumbnail: data.thumbnail,
       // members: data.members,

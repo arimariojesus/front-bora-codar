@@ -9,18 +9,17 @@
     "server": "json-server server.json -w -p 3333"
   },
   "dependencies": {
-    "ansi-regex": "^5.0.1",
     "axios": "^0.21.4",
     "chrome-aws-lambda": "^10.1.0",
     "date-fns": "^2.24.0",
     "json-server": "^0.16.3",
     "mongodb": "^3.7.1",
-    "next": "^11.1.1",
+    "next": "^11.1.2",
     "puppeteer-core": "^10.2.0",
     "rc-slider": "^9.7.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "sass": "^1.42.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.42.1",
     "slugify": "^1.6.0"
   },
   "devDependencies": {
