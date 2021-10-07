@@ -92,8 +92,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params;
 
   try {
-    const { db } = await connectToDatabase();
-    const data = await db.collection('episodes').findOne({ slug: `${slug}` });
+    const { data } = await api.get(`episodes/${slug}`);
 
     if (!data) {
       return {

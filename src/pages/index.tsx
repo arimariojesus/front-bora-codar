@@ -1,15 +1,12 @@
 import { GetStaticProps } from 'next';
-import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import Image from 'next/image';
-import ptBR from 'date-fns/locale/pt-BR';
 import { api } from './../services/api';
 import { convertDurationToTimeString } from './../utils/convertDurationToTimeString';
 
 import styles from './home.module.scss';
 import { usePlayer } from './../contexts/PlayerContext';
 import Layout from './../components/Layout';
-import { connectToDatabase } from '../utils/mongodb';
 
 type Episode = {
   id: string;
@@ -111,8 +108,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const { db } = await connectToDatabase();
-    const episodes = await db.collection('episodes').find().sort({ _id: -1 }).toArray();
+    const { data: episodes } = await api.get('/episodes');
 
     if (!episodes) {
       return {
