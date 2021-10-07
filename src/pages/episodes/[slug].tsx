@@ -43,7 +43,7 @@ const Episode = ({ episode }: EpisodeProps) => {
           </Link>
           <Image
             width={700}
-            height={160}
+            height={400}
             src={episode.thumbnail}
             objectFit="cover"
           />
