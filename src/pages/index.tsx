@@ -73,7 +73,7 @@ export default function Home({ lastEpisode, allEpisodes }: HomeProps) {
           <h2>Todos episódios</h2>
 
           {allEpisodes.map((episode, index) => (
-            <div className={styles.episodeContainer}>
+            <div className={styles.episodeContainer} key={`episode-${episode.id}`}>
               <Link href={`/episodes/${episode.slug}`}>
                 <a>
                   <picture>
