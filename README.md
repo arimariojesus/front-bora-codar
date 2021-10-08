@@ -4,9 +4,10 @@
 
 <p align="center">
   <a href="#-teste">Teste</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-projeto">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-a-ideia">A ideia</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-tecnologias">Tecnologias</a>
+  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-layout">Layout</a>
 </p>
 
 ---
@@ -31,7 +32,7 @@ Antes de tudo, precisamos saber que esta aplicação é uma breve "homenagem" à
 
 Para a "captura" dos dados, eu criei um web scraper em [Node.js](https://nodejs.dev/) utilizando a API do [Puppeteer](https://nodejs.dev/), e persistindo os dados no banco de dados do [MongoDB](https://www.mongodb.com/pt-br).
 
-No Front-end adicionei algumas melhorias como a continuidade do áudio ao mudar de rotas utilizando Context AP e responsividade.
+No Front-end adicionei algumas melhorias como a continuidade do áudio ao mudar de rotas utilizando Context API, responsividade e um pequeno efeito estilo "marquee" no título.
 
 ---
 
@@ -43,6 +44,35 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Next.js](https://nextjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Sass](https://sass-lang.com/)
+
+---
+
+## 🖼 Layout
+
+O Layout consiste em duas telas (home e internas), totalmente responsivas:
+
+### Desktop
+
+> **Home**
+![Layout Desktop](.github/images/layout-desktop.png)
+
+> **Interna**
+![Layout Desktop Interna](.github/images/layout-desktop-internal.png)
+
+### Tablet
+
+> **Home**
+![Layout Tablet](.github/images/layout-tablet.png)
+
+### Mobile
+
+> **Home**
+
+<img src=".github/images/layout-mobile.png" width="320" />
+
+> **Interna**
+
+<img src=".github/images/layout-mobile-internal.png" width="320" />
 
 ---
 
