@@ -7,12 +7,13 @@
   <a href="#-sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-a-ideia">A ideia</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>
+  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-direitos">Direitos</a>
 </p>
 
 ---
 
-### 🖱 Teste
+## 🖱 Teste
 
 O projeto foi hospedado na [Vercel](https://vercel.com/), você pode visualizá-lo aqui:
 
@@ -73,6 +74,12 @@ O Layout consiste em duas telas (home e internas), totalmente responsivas:
 > **Interna**
 
 <img src=".github/images/layout-mobile-internal.png" width="320" />
+
+---
+
+## 📝 Direitos
+
+Todos os direitos dos dados dos podcasts utilizados neste projeto são de interesse do [Bora Codar](https://github.com/devssa/bora-codar/issues)
 
 ---
 
