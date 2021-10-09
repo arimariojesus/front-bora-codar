@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Slider from 'rc-slider';
@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 import { convertDurationToTimeString } from './../../utils/convertDurationToTimeString';
 
 function Player() {
+  const [playerExpanded, setPlayerExpanded] = useState(false);
   const {
     audio,
     episodeList,
@@ -37,7 +38,9 @@ function Player() {
   const episode = episodeList[currentEpisodeIndex];
 
   return (
-    <div className={styles.playerContainer}>
+    <div className={styles.playerContainer + ' ' + (playerExpanded && styles.expanded)}>
+      <div className={styles.expansionButton} onClick={() => setPlayerExpanded(s => !s)} />
+
       <header>
         <picture>
           <img src="/playing-codar.svg" alt="Tocando agora" width="40" height="40" />
