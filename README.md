@@ -71,6 +71,10 @@ O Layout consiste em duas telas (home e internas), totalmente responsivas:
 
 <img src=".github/images/layout-mobile.png" width="320" />
 
+> **Home (expandido)**
+
+<img src=".github/images/layout-mobile__expanded.png" width="320" />
+
 > **Interna**
 
 <img src=".github/images/layout-mobile-internal.png" width="320" />
